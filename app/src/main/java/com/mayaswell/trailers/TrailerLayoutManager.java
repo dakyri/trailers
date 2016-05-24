@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,11 +16,12 @@ import android.view.ViewGroup;
 public class TrailerLayoutManager extends GridLayoutManager {
 	private static final String TAG = TrailerLayoutManager.class.getSimpleName();
 
-	public TrailerLayoutManager(Context context) {
-		super(context, 1);
+	public TrailerLayoutManager(Context context, int ns) {
+		super(context, ns);
 	}
 
 	private int[] mMeasuredDimension = new int[2];
+
 
 	@Override
 	public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {

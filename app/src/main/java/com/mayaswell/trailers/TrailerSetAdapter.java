@@ -27,7 +27,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<TrailerSetAdapter.Vi
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		private final TrailerAdapter trailerAdapter;
 		private final RecyclerView trailerView;
-		private final GridLayoutManager trailerLayoutManager;
+		private final TrailerLayoutManager trailerLayoutManager;
 		public TrailerSetListItemBinding binding;
 		protected RelativeLayout parent;
 		private TrailerSet trailerSet;
@@ -40,7 +40,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<TrailerSetAdapter.Vi
 			trailerSet = null;
 			trailerAdapter = new TrailerAdapter();
 			trailerView = (RecyclerView) parent.findViewById(R.id.trailerListView);
-			trailerLayoutManager = new GridLayoutManager(parent.getContext(), 1);
+			trailerLayoutManager = new TrailerLayoutManager(parent.getContext(), 1);
 			trailerView.setLayoutManager(trailerLayoutManager);
 			trailerView.setAdapter(trailerAdapter);
 		}
