@@ -33,6 +33,8 @@ public class TrailerLayoutManager extends GridLayoutManager {
 
 		int width = 0;
 		int height = 0;
+		int spanMeasure = 0;
+		int span = 0;
 		for (int i = 0; i < getItemCount(); i++) {
 			measureScrapChild(recycler, i,
 					View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
@@ -41,17 +43,32 @@ public class TrailerLayoutManager extends GridLayoutManager {
 
 
 			if (getOrientation() == HORIZONTAL) {
-				width = width + mMeasuredDimension[0];
+				if (mMeasuredDimension[1] > spanMeasure) {
+					spanMeasure = mMeasuredDimension[1];
+				}
+				if ((i+1) % getSpanCount() == 0) {
+					width += spanMeasure;
+					spanMeasure = 0;
+					span++;
+				}
 				if (i == 0) {
 					height = mMeasuredDimension[1];
 				}
 			} else {
-				height = height + mMeasuredDimension[1];
+				if (mMeasuredDimension[1] > spanMeasure) {
+					spanMeasure = mMeasuredDimension[1];
+				}
+				if ((i+1) % getSpanCount() == 0) {
+					height += spanMeasure;
+					spanMeasure = 0;
+					span++;
+				}
 				if (i == 0) {
 					width = mMeasuredDimension[0];
 				}
 			}
 		}
+		height += spanMeasure;
 		switch (widthMode) {
 			case View.MeasureSpec.EXACTLY:
 				width = widthSize;
@@ -65,9 +82,10 @@ public class TrailerLayoutManager extends GridLayoutManager {
 			case View.MeasureSpec.AT_MOST:
 			case View.MeasureSpec.UNSPECIFIED:
 		}
-		Log.d("TrailerLayoutManager", "got " + width + ". " + height);
 
-		setMeasuredDimension(width, height / getSpanCount());
+		Log.d("TrailerLayoutManager", "got " + width + ". " + height + " span count "+getSpanCount()+" nspan "+span);
+
+		setMeasuredDimension(width, height);
 	}
 
 	private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,

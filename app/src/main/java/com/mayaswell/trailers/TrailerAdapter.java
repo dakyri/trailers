@@ -108,7 +108,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
 	@Override
 	public int getItemCount() {
-		Log.d("TrailerAdapter", "iten count "+dataSet.size());
+//		Log.d("TrailerAdapter", "iten count "+dataSet.size());
 		return dataSet.size();
 	}
 }
