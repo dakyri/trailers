@@ -24,4 +24,13 @@
         style="@style/TrailerTitleText"
         android:text=""
         />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_media_play"
+        android:layout_marginRight="@dimen/buttonIconMargin"
+        android:layout_marginTop="@dimen/buttonIconMargin"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        />
 </RelativeLayout>

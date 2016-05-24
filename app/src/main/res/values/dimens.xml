@@ -5,4 +5,5 @@
     <dimen name="trailerListTextMarginH">20dp</dimen>
     <dimen name="trailerListTextMarginV">5dp</dimen>
     <dimen name="imageFixedHeight">300dp</dimen>
+    <dimen name="buttonIconMargin">15dp</dimen>
 </resources>

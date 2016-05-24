@@ -1,9 +1,12 @@
 package com.mayaswell.trailers;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,6 +19,8 @@ import java.util.Collection;
 
 /**
  * Created by dak on 5/24/2016.
+ *
+ * todo perhaps this is better off as a simple GridView
  */
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
 	ArrayList<Trailer> dataSet = new ArrayList<Trailer>();
@@ -36,6 +41,26 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
 		public void setTrailer(Trailer t) {
 			trailer = t;
+			/* todo convert to reactive */
+			imageView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String actionMsg = "clicked";
+					if (trailer.actions.size() > 0) {
+						Trailer.Action a = trailer.actions.get(0);
+						actionMsg = a.data+" layout \""+a.layout+"\" type \"" + a.type + "\"";
+					}
+					AlertDialog.Builder d = new AlertDialog.Builder(parent.getContext());
+					d.setTitle("something happened");
+					d.setMessage(actionMsg);
+					d.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							dialog.dismiss();
+						}
+					});
+					d.show();
+				}
+			});
 			String imageUrl = t.images.size() > 0 ? t.images.get(0).url : null;
 			Log.d("TrailerAdapter", "set to " + t.title + ", " + (imageUrl != null ? imageUrl : "no image") + " parent w " + parent.getMeasuredWidth());
 			if (t.layout == Trailer.LayoutMode.COLUMN1) {
