@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Trailers</string>
+    <string name="trailersURL">https://tmdb-api.appspot.com/views/movie/upcoming</string>
+    <string name="trailersToken">f90384c1-5a26-4a76-9f3b-fc0b37fe06f8</string>
+</resources>

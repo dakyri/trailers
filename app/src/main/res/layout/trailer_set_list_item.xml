@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+	<data>
+		<variable name="trailers" type="com.mayaswell.trailers.TrailerSet"/>
+	</data>
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/trailerSetBg"
+	>
+		<TextView
+			android:id="@+id/setTitleView"
+			android:maxLines="200"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_margin="0dip"
+			android:singleLine="true"
+			android:text="@{trailers.title}"
+			style="@style/TrailerSetTitleText"
+		/>
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/trailerListView"
+			android:scrollbars="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_below="@id/setTitleView"
+			android:layout_alignParentLeft="true"
+			/>
+	</RelativeLayout>
+</layout>
