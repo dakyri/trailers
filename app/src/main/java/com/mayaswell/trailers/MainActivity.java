@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.ProgressBar;
 
 import rx.Subscriber;
 
@@ -15,10 +18,13 @@ public class MainActivity extends AppCompatActivity {
 	private RecyclerView trailerSetView;
 	private LinearLayoutManager trailerSetLayoutManager;
 	private Upcoming upcoming;
+//	private ProgressBar progressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_main);
 
 		upcoming = null;
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 		trailerSetView.setLayoutManager(trailerSetLayoutManager);
 		trailerSetView.setAdapter(trailerSetAdapter);
 
+//		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 		String trailersURL = getResources().getString(R.string.trailersURL);
 		String trailersToken = getResources().getString(R.string.trailersToken);
@@ -45,19 +52,23 @@ public class MainActivity extends AppCompatActivity {
 		super.onStart();
 
 		if (upcoming != null) {
-
+			trailerSetAdapter.clear();
+			trailerSetAdapter.addAll(upcoming.sets);
 		} else {
 			/* todo should be a cleaner way of getting this more rx-ish way via composition */
+			showProgress(true);
 			trailersAPI.getCurrent(new Subscriber<Upcoming>() {
 
 				@Override
 				public void onCompleted() {
+					showProgress(false);
 					Log.d("Main", "Results are ok");
 				}
 
 				@Override
 				public void onError(Throwable e) {
 					Log.d("Main", "Got error " + e.getMessage());
+					showProgress(false);
 					e.printStackTrace();
 				}
 
@@ -70,6 +81,15 @@ public class MainActivity extends AppCompatActivity {
 				}
 			});
 		}
+	}
+
+	private void showProgress(boolean b) {
+		setProgressBarVisibility(b);
+		/*
+		if (progressBar != null) {
+			progressBar.setVisibility(b?View.VISIBLE:View.GONE);
+		}
+		*/
 	}
 
 	@Override
