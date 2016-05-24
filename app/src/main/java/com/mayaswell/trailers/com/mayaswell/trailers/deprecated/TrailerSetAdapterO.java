@@ -1,4 +1,4 @@
-package com.mayaswell.trailers;
+package com.mayaswell.trailers.com.mayaswell.trailers.deprecated;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.mayaswell.trailers.R;
+import com.mayaswell.trailers.Trailer;
+import com.mayaswell.trailers.TrailerSet;
 import com.mayaswell.trailers.databinding.TrailerSetListItemBinding;
 
 import java.util.ArrayList;

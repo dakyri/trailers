@@ -1,4 +1,4 @@
-package com.mayaswell.trailers;
+package com.mayaswell.trailers.com.mayaswell.trailers.deprecated;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,7 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
+import com.mayaswell.trailers.R;
+import com.mayaswell.trailers.Trailer;
 
 import java.util.ArrayList;
 import java.util.Collection;

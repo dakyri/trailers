@@ -14,7 +14,7 @@ public class Trailer {
 
 	}
 	public class Image {
-		String url = "";
+		public String url = "";
 		double aspectRatio = 1;
 
 		public Image(String url, double aspectRatio) {
@@ -23,9 +23,9 @@ public class Trailer {
 		}
 	}
 	public class Action {
-		String data = "";
-		String type = "";
-		String layout = "";
+		public String data = "";
+		public String type = "";
+		public String layout = "";
 
 		public Action(String data, String type, String layout) {
 			this.data = data;
