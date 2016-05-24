@@ -6,8 +6,9 @@
     <ImageView
         android:id="@+id/itemImageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
+        android:layout_height="@dimen/imageFixedHeight"
+        android:scaleType="centerInside"
+        android:padding="0dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"/>
     <TextView
@@ -18,6 +19,7 @@
         android:layout_alignParentBottom="true"
         android:paddingLeft="@dimen/trailerListTextMarginH"
         android:paddingBottom="@dimen/trailerListTextMarginV"
+        android:background="@color/trailertextBackground"
         android:singleLine="true"
         style="@style/TrailerTitleText"
         android:text=""

@@ -34,7 +34,8 @@ public class TrailerLayoutManager extends GridLayoutManager {
 		int width = 0;
 		int height = 0;
 		for (int i = 0; i < getItemCount(); i++) {
-			measureScrapChild(recycler, i, View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
+			measureScrapChild(recycler, i,
+					View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
 					View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
 					mMeasuredDimension);
 
@@ -64,7 +65,7 @@ public class TrailerLayoutManager extends GridLayoutManager {
 			case View.MeasureSpec.AT_MOST:
 			case View.MeasureSpec.UNSPECIFIED:
 		}
-
+		Log.d("TrailerLayoutManager", "got "+width+". "+height);
 		setMeasuredDimension(width, height);
 	}
 

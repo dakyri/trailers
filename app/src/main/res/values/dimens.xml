@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="trailerListTextMarginH">10dp</dimen>
     <dimen name="trailerListTextMarginV">5dp</dimen>
+    <dimen name="imageFixedHeight">300dp</dimen>
 </resources>

@@ -3,6 +3,7 @@ package com.mayaswell.trailers;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -35,9 +36,14 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
 		public void setTrailer(Trailer t) {
 			trailer = t;
-			String imageUrl = t.images.size() > 0? t.images.get(0).url: null;
-			Log.d("TrailerAdapter", "set to "+t.title+", "+(imageUrl != null? imageUrl: "no image"));
-			nameView.setText(t.title);
+			String imageUrl = t.images.size() > 0 ? t.images.get(0).url : null;
+			Log.d("TrailerAdapter", "set to " + t.title + ", " + (imageUrl != null ? imageUrl : "no image") + " parent w " + parent.getMeasuredWidth());
+			if (t.layout == Trailer.LayoutMode.COLUMN1) {
+				nameView.setText(t.title);
+				nameView.setVisibility(View.VISIBLE);
+			} else {
+				nameView.setVisibility(View.GONE);
+			}
 			if (imageUrl != null) {
 				Picasso.with(parent.getContext())
 						.load(imageUrl)
