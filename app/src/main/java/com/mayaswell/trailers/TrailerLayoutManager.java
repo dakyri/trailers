@@ -12,6 +12,7 @@ import android.view.ViewGroup;
  */
 public class TrailerLayoutManager extends LinearLayoutManager {
 	private static final String TAG = TrailerLayoutManager.class.getSimpleName();
+	private int numColumns = 1;
 
 	public TrailerLayoutManager(Context context) {
 		super(context);
@@ -19,6 +20,10 @@ public class TrailerLayoutManager extends LinearLayoutManager {
 
 	public TrailerLayoutManager(Context context, int orientation, boolean reverseLayout) {
 		super(context, orientation, reverseLayout);
+	}
+
+	public void setColumns(int nc) {
+		numColumns = nc;
 	}
 
 	private int[] mMeasuredDimension = new int[2];

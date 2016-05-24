@@ -51,6 +51,13 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<TrailerSetAdapter.Vi
 			binding.setTrailers(trailerSet);
 			trailerAdapter.setTo(trailerSet.trailers);
 			layoutMode = trailerSet.trailers.size() > 0? trailerSet.trailers.get(0).layout: Trailer.LayoutMode.COLUMN1;
+			int nColumns=1;
+			switch (layoutMode) {
+				case COLUMN1: nColumns = 1; break;
+				case COLUMN2: nColumns = 2; break;
+				case COLUMN3: nColumns = 3; break;
+			}
+			trailerLayoutManager.setColumns(nColumns);
 		}
 	}
 
