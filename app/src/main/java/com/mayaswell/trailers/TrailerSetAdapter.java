@@ -26,6 +26,7 @@ import java.util.Collection;
 public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	private int itemCount = 0;
+	private ViewGroup parent;
 
 	private final static class ViewType {
 		public static final int TRAILER = 1;
@@ -62,13 +63,13 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	 */
 	public static class TitleViewHolder extends RecyclerView.ViewHolder {
 		public TrailerSetListItemBinding binding;
-		protected RelativeLayout parent;
+		protected RelativeLayout main;
 		private TrailerSet trailerSet;
 
 		public TitleViewHolder(TrailerSetListItemBinding v) {
 			super(v.getRoot());
 			binding = v;
-			parent = (RelativeLayout) v.getRoot();
+			main = (RelativeLayout) v.getRoot();
 			trailerSet = null;
 		}
 
@@ -83,14 +84,14 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	 * todo convert to binding
 	 */
 	public class ImageViewHolder extends RecyclerView.ViewHolder {
-		private final RelativeLayout parent;
+		private final RelativeLayout main;
 		private final TextView nameView;
 		private final ImageView imageView;
 		private Trailer trailer ;
 
 		public ImageViewHolder(RelativeLayout v) {
 			super(v);
-			parent = v;
+			main = v;
 			trailer = null;
 			nameView = (TextView) v.findViewById(R.id.itemNameView);
 			imageView = (ImageView) v.findViewById(R.id.itemImageView);
@@ -107,7 +108,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 						Trailer.Action a = trailer.actions.get(0);
 						actionMsg = a.data+" layout \""+a.layout+"\" type \"" + a.type + "\"";
 					}
-					AlertDialog.Builder d = new AlertDialog.Builder(parent.getContext());
+					AlertDialog.Builder d = new AlertDialog.Builder(main.getContext());
 					d.setTitle("something happened");
 					d.setMessage(actionMsg);
 					d.setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -119,7 +120,18 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				}
 			});
 			String imageUrl = t.images.size() > 0 ? t.images.get(0).url : null;
-			Log.d("TrailerAdapter", "set to " + t.title + ", " + (imageUrl != null ? imageUrl : "no image") + " parent w " + parent.getMeasuredWidth());
+/** todo try to set the most appropriate width. at the moment, this approach is playing havoc with bitmap caching */
+			int w = 0;
+			if (parent != null) {
+//				w = parent.getMeasuredWidth();
+			}
+			if (w > 0) {
+				int nc = t.getColumnCount();
+				imageView.getLayoutParams().width = w/nc;
+				imageView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+				Log.d("TrailerAdapter", "set layout params " + (w/nc));
+			}
+			Log.d("TrailerAdapter", "set to " + t.title + ", " + (imageUrl != null ? imageUrl : "no image") + " main w "+w);
 			if (t.layout == Trailer.LayoutMode.COLUMN1) {
 				nameView.setText(t.title);
 				nameView.setVisibility(View.VISIBLE);
@@ -128,7 +140,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			}
 			if (imageUrl != null) {
 				/*Picasso*/
-				Glide.with(parent.getContext())
+				Glide.with(main.getContext())
 						.load(imageUrl)
 						.into(imageView);
 			} else {
@@ -162,6 +174,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		RecyclerView.ViewHolder vh = null;
+		this.parent = parent;
 		if (viewType == ViewType.TRAILER) {
 			RelativeLayout v = (RelativeLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.trailer_list_item, parent, false);
 			vh = new ImageViewHolder(v);

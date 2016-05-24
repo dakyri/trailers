@@ -6,11 +6,12 @@ import java.util.ArrayList;
  * Created by dak on 5/22/2016.
  */
 public class Trailer {
+
 	public  enum LayoutMode {
 		COLUMN1,
 		COLUMN2,
 		COLUMN3,
-		layout, FREE
+		FREE
 
 	}
 	public class Image {
@@ -59,6 +60,17 @@ public class Trailer {
 	}
 
 
+	public int getColumnCount() {
+		switch (layout) {
+			case COLUMN1:
+				return 1;
+			case COLUMN2:
+				return 2;
+			case COLUMN3:
+				return 3;
+		}
+		return 1;
+	}
 
 
-}
+	}
