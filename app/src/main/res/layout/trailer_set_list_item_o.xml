@@ -19,5 +19,13 @@
 			android:text="@{trailers.title}"
 			style="@style/TrailerSetTitleText"
 		/>
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/trailerListView"
+			android:scrollbars="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_below="@id/setTitleView"
+			android:layout_alignParentLeft="true"
+			/>
 	</RelativeLayout>
 </layout>

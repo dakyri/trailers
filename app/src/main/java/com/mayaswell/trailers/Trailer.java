@@ -10,7 +10,7 @@ public class Trailer {
 		COLUMN1,
 		COLUMN2,
 		COLUMN3,
-		FREE
+		layout, FREE
 
 	}
 	public class Image {
