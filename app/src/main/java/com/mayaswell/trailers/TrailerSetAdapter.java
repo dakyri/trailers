@@ -37,6 +37,8 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 		@Override
 		public int getSpanSize(int position) {
+			return position >= 0 && position < dataSetWidths.size()? dataSetWidths.get(position):0;
+			/*
 			int p = 0;
 			for (TrailerSet ts: dataSet) {
 				if (p == position) { // header
@@ -51,12 +53,14 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				p += 1 + ts.trailers.size();
 			}
 			return 0;
+			*/
 		}
 	}
 
 	public SpanLookup spanLookup = new SpanLookup();
 	protected ArrayList<TrailerSet> dataSet = new ArrayList<TrailerSet>();
-
+	protected ArrayList<Integer> dataSetWidths = new ArrayList<Integer>();
+	protected ArrayList<Integer> dataSetTypes = new ArrayList<Integer>();
 	/**
 	 * view holder.
 	 * assume that all the items in a collection have the same layout mode
@@ -152,6 +156,8 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public void clear() {
 		dataSet.clear();
+		dataSetWidths.clear();
+		dataSetTypes.clear();
 		itemCount = 0;
 		notifyDataSetChanged();
 	}
@@ -159,7 +165,21 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public void addAll(Collection<TrailerSet> trailers) {
 		dataSet.addAll(trailers);
 		for (TrailerSet ts: trailers) {
+			dataSetWidths.add(6);
+			dataSetTypes.add(ViewType.TITLE);
+			for (Trailer t: ts.trailers) {
+				int w = 6;
+				switch (ts.layout) {
+					case COLUMN1: w = 6; break;
+					case COLUMN2: w = 3; break;
+					case COLUMN3: w = 2; break;
+				}
+
+				dataSetWidths.add(w);
+				dataSetTypes.add(ViewType.TRAILER);
+			}
 			itemCount += ts.trailers.size() + 1;
+
 		}
 		notifyDataSetChanged();
 	}
@@ -189,6 +209,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemViewType(int position) {
+		/*
 		int p = 0;
 		for (TrailerSet ts: dataSet) {
 			if (p == position) { // header
@@ -197,13 +218,15 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				return ViewType.TRAILER;
 			}
 			p += ts.trailers.size() + 1;
-		}
-		return 0;
+		}*/
+		return position >= 0 && position<dataSetTypes.size()? dataSetTypes.get(position):ViewType.TRAILER;
 	}
 
 	/**
 	 * - get element from your dataset at this position
 	 * - replace the contents of the view with that element
+	 *
+	 * todo index the objects according to position
 	 *
 	 * @param holder
 	 * @param position
