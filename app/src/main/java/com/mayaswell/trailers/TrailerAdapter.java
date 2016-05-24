@@ -34,9 +34,9 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 		}
 
 		public void setTrailer(Trailer t) {
-			String imageUrl = trailer.images.size() > 0? t.images.get(0).url: null;
-			Log.d("TrailerAdapter", "set to "+t.title+", "+(imageUrl != null? imageUrl: "no image"));
 			trailer = t;
+			String imageUrl = t.images.size() > 0? t.images.get(0).url: null;
+			Log.d("TrailerAdapter", "set to "+t.title+", "+(imageUrl != null? imageUrl: "no image"));
 			nameView.setText(t.title);
 			if (imageUrl != null) {
 				Picasso.with(parent.getContext())
@@ -91,12 +91,18 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 	 */
 	@Override
 	public void onBindViewHolder(TrailerAdapter.ViewHolder holder, int position) {
-		Log.d("TrailerAdapter", "binding v "+position);
-		holder.setTrailer(dataSet.get(position));
+		Log.d("TrailerAdapter", "binding v " + position);
+		Trailer t = dataSet.get(position);
+		if (t == null) {
+			Log.d("TrailerAdapter", "null item");
+		} else {
+			holder.setTrailer(t);
+		}
 	}
 
 	@Override
 	public int getItemCount() {
+		Log.d("TrailerAdapter", "iten count "+dataSet.size());
 		return dataSet.size();
 	}
 }
