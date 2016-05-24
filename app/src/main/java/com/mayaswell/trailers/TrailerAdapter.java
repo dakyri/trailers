@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.Collection;
  * Created by dak on 5/24/2016.
  *
  * todo perhaps this is better off as a simple GridView
+ * todo there seems to be a big performance hit from something tagged 'art' ... supsect that that is Picasso.
  */
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
 	ArrayList<Trailer> dataSet = new ArrayList<Trailer>();
@@ -70,7 +72,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 				nameView.setVisibility(View.GONE);
 			}
 			if (imageUrl != null) {
-				Picasso.with(parent.getContext())
+				/*Picasso*/
+				Glide.with(parent.getContext())
 						.load(imageUrl)
 						.into(imageView);
 			} else {

@@ -7,7 +7,7 @@
         android:id="@+id/itemImageView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/imageFixedHeight"
-        android:scaleType="centerInside"
+        android:scaleType="fitStart"
         android:padding="0dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"/>
