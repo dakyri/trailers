@@ -65,8 +65,9 @@ public class TrailerLayoutManager extends GridLayoutManager {
 			case View.MeasureSpec.AT_MOST:
 			case View.MeasureSpec.UNSPECIFIED:
 		}
-		Log.d("TrailerLayoutManager", "got "+width+". "+height);
-		setMeasuredDimension(width, height);
+		Log.d("TrailerLayoutManager", "got " + width + ". " + height);
+
+		setMeasuredDimension(width, height / getSpanCount());
 	}
 
 	private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,

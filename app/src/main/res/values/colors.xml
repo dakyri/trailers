@@ -6,5 +6,5 @@
     <color name="itemSelectedBack">#ccf1c6</color>
     <color name="itemPressedBack">#dedede</color>
     <color name="trailerSetBg">#ffffff</color>
-    <color name="trailertextBackground">#44ffffff</color>
+    <color name="trailertextBackground">#bbffffff</color>
 </resources>
