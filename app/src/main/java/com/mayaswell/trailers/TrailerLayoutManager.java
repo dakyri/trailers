@@ -1,6 +1,7 @@
 package com.mayaswell.trailers;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,22 +9,14 @@ import android.view.ViewGroup;
 
 /**
  * Created by dak on 5/24/2016.
+ *    based on
  * http://stackoverflow.com/questions/32011995/how-to-have-a-listview-recyclerview-inside-a-parent-recyclerview-i-have-a-pare
  */
-public class TrailerLayoutManager extends LinearLayoutManager {
+public class TrailerLayoutManager extends GridLayoutManager {
 	private static final String TAG = TrailerLayoutManager.class.getSimpleName();
-	private int numColumns = 1;
 
 	public TrailerLayoutManager(Context context) {
-		super(context);
-	}
-
-	public TrailerLayoutManager(Context context, int orientation, boolean reverseLayout) {
-		super(context, orientation, reverseLayout);
-	}
-
-	public void setColumns(int nc) {
-		numColumns = nc;
+		super(context, 1);
 	}
 
 	private int[] mMeasuredDimension = new int[2];
@@ -41,7 +34,6 @@ public class TrailerLayoutManager extends LinearLayoutManager {
 		for (int i = 0; i < getItemCount(); i++) {
 			measureScrapChild(recycler, i, View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
 					View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
-
 					mMeasuredDimension);
 
 
