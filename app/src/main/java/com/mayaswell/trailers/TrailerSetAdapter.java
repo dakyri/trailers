@@ -13,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.target.Target;
 import com.mayaswell.trailers.databinding.TrailerSetListItemBinding;
 import com.mayaswell.trailers.databinding.TrailerSetListItemBinding;
 
@@ -61,6 +65,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	protected ArrayList<TrailerSet> dataSet = new ArrayList<TrailerSet>();
 	protected ArrayList<Integer> dataSetWidths = new ArrayList<Integer>();
 	protected ArrayList<Integer> dataSetTypes = new ArrayList<Integer>();
+	protected ArrayList<Object> dataSetObjects = new ArrayList<Object>();
 	/**
 	 * view holder.
 	 * assume that all the items in a collection have the same layout mode
@@ -124,18 +129,23 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				}
 			});
 			String imageUrl = t.images.size() > 0 ? t.images.get(0).url : null;
+			double imageAR = t.images.size() > 0 ? t.images.get(0).aspectRatio : 1;
 /** todo try to set the most appropriate width. at the moment, this approach is playing havoc with bitmap caching */
 			int w = 0;
+			int h = 0;
 			if (parent != null) {
-//				w = parent.getMeasuredWidth();
+				int nc = t.getColumnCount();
+				w = parent.getMeasuredWidth()/nc;
+				h = (int)(w / imageAR);
 			}
+			/*
 			if (w > 0) {
 				int nc = t.getColumnCount();
 				imageView.getLayoutParams().width = w/nc;
 				imageView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
 				Log.d("TrailerAdapter", "set layout params " + (w/nc));
-			}
-			Log.d("TrailerAdapter", "set to " + t.title + ", " + (imageUrl != null ? imageUrl : "no image") + " main w "+w);
+			}*/
+			Log.d("TrailerAdapter", "set to " + t.title + ", " + (imageUrl != null ? imageUrl : "no image") + " main w " + w + " h " + h);
 			if (t.layout == Trailer.LayoutMode.COLUMN1) {
 				nameView.setText(t.title);
 				nameView.setVisibility(View.VISIBLE);
@@ -144,9 +154,12 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			}
 			if (imageUrl != null) {
 				/*Picasso*/
-				Glide.with(main.getContext())
-						.load(imageUrl)
-						.into(imageView);
+				DrawableTypeRequest<String> im = Glide.with(main.getContext()).load(imageUrl);
+				if (w > 0 && h > 0) {
+					im.override(w, h).into(imageView);
+				} else {
+					im.into(imageView);
+				}
 			} else {
 				imageView.setImageResource(android.R.color.transparent);
 			}
@@ -158,6 +171,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		dataSet.clear();
 		dataSetWidths.clear();
 		dataSetTypes.clear();
+		dataSetObjects.clear();
 		itemCount = 0;
 		notifyDataSetChanged();
 	}
@@ -167,6 +181,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		for (TrailerSet ts: trailers) {
 			dataSetWidths.add(6);
 			dataSetTypes.add(ViewType.TITLE);
+			dataSetObjects.add(ts);
 			for (Trailer t: ts.trailers) {
 				int w = 6;
 				switch (ts.layout) {
@@ -177,6 +192,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 				dataSetWidths.add(w);
 				dataSetTypes.add(ViewType.TRAILER);
+				dataSetObjects.add(t);
 			}
 			itemCount += ts.trailers.size() + 1;
 
@@ -235,6 +251,15 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		int type = getItemViewType(position);
 		int p = 0;
+		Object o = position >= 0 && position < dataSetObjects.size()? dataSetObjects.get(position): null;
+		if (o != null) {
+			if (o instanceof Trailer && holder instanceof ImageViewHolder) {
+				((ImageViewHolder) holder).setTrailer((Trailer) o);
+			} else if (o instanceof TrailerSet && holder instanceof TitleViewHolder) {
+				((TitleViewHolder)holder).setToTrailer((TrailerSet) o);
+			}
+		}
+		/*
 		for (TrailerSet ts: dataSet) {
 			if (position == 0) { // header
 				((TitleViewHolder)holder).setToTrailer(ts);
@@ -250,7 +275,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			} else {
 				Log.d("TrailerSetAdapter", "position goes negative in onBind");
 			}
-		}
+		}*/
 	}
 
 	@Override

@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-    >
+    ><!-- @dimen/imageFixedHeight-->
     <ImageView
         android:id="@+id/itemImageView"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/imageFixedHeight"
+        android:layout_height="wrap_content"
         android:scaleType="fitStart"
         android:padding="0dp"
         android:layout_alignParentLeft="true"
