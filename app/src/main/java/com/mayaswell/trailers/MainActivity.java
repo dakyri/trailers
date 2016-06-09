@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
 	}
 
-	@Override
-	protected void onStart()
-	{
-		super.onStart();
+		@Override
+		protected void onStart()
+		{
+			super.onStart();
 
 		if (upcoming != null) {
 			trailerSetAdapter.clear();

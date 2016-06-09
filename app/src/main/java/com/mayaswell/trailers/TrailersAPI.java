@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -56,49 +57,34 @@ public class TrailersAPI {
 	public void getCurrent(final Subscriber<Upcoming> su) {
 		okObservable.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<Response>() {
-					@Override
-					public void onCompleted() {
-						su.onCompleted();
-						unsubscribe();
-					}
+				.map(new Func1<Response, Upcoming>() {
 
 					@Override
-					public void onError(Throwable e) {
-						su.onError(e);
-						unsubscribe();
-					}
-
-					@Override
-					public void onNext(Response response) {
+					public Upcoming call(Response response) {
 						int responseCode = response.code();
 						if (responseCode != HttpURLConnection.HTTP_OK) {
-							su.onError(new Exception("Bad response code "+responseCode));
-							return;
+							throw new RuntimeException("Bad response code "+responseCode);
 						}
+						Upcoming u = null;
 						String responseBody = "";
 						try {
 							responseBody = response.body().string();
 						} catch (IOException e) {
-							su.onError(e);
-							return;
+							throw new RuntimeException(e);
 						}
 						try {
 							JSONObject jsono = new JSONObject(responseBody);
-							Upcoming u = processUpcoming(jsono);
-							if (u != null) {
-								su.onNext(u);
-							} else {
-								su.onError(new Exception("Unexpected null result processing JSON"));
+							u = processUpcoming(jsono);
+							if (u == null) {
+								throw new RuntimeException("Unexpected null result processing JSON");
 							}
 						} catch (JSONException e) {
-							su.onError(e);
-							return;
+							throw new RuntimeException(e);
 						}
-
-
+						return u;
 					}
-				});
+				})
+				.subscribe(su);
 	}
 
 	public Upcoming processUpcoming(JSONObject jo) throws JSONException {

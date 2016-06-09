@@ -138,7 +138,7 @@ public class TrailerSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				w = parent.getMeasuredWidth()/nc;
 				h = (int)(w / imageAR);
 			}
-			/*
+/*
 			if (w > 0) {
 				int nc = t.getColumnCount();
 				imageView.getLayoutParams().width = w/nc;
